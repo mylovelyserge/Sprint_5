@@ -34,9 +34,19 @@ AD_TITLE_INPUT = (By.CSS_SELECTOR, "input[name='name'][placeholder='Назван
 AD_DESCRIPTION_INPUT = (By.CSS_SELECTOR, "textarea[name='description']")
 AD_PRICE_INPUT = (By.XPATH, "//form[contains(@class,'createListing')]//input[@name='price']")
 AD_CATEGORY_DROPDOWN = (By.CSS_SELECTOR, "input[name='category']")
+AD_CATEGORY_ARROW = (By.XPATH, "//input[@name='category']/following-sibling::button")
 AD_CITY_DROPDOWN = (By.CSS_SELECTOR, "input[name='city']")
+AD_CITY_ARROW = (By.XPATH, "//input[@name='city']/following-sibling::button")
 AD_CONDITION_RADIO = (By.CSS_SELECTOR, "input[name='condition']")
 AD_PUBLISH_BUTTON = (By.XPATH, "//button[@type='submit' and contains(text(), 'Опубликовать')]")
+
+
+def AD_CATEGORY_OPTION(category):
+    return (By.XPATH, f"//input[@name='category']/ancestor::div[contains(@class,'dropDownMenu_dropMenu')][1]//button[normalize-space()='{category}']")
+
+
+def AD_CITY_OPTION(city):
+    return (By.XPATH, f"//input[@name='city']/ancestor::div[contains(@class,'dropDownMenu_dropMenu')][1]//button[normalize-space()='{city}']")
 
 # Профиль пользователя
 PROFILE_LINK = (By.CSS_SELECTOR, "button.circleSmall")

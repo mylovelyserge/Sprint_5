@@ -51,3 +51,11 @@ class BasePage:
 
     def is_displayed(self, locator):
         return self.wait_for_element_visible(locator).is_displayed()
+
+    def js_click(self, element):
+        self.driver.execute_script("arguments[0].click()", element)
+
+    def wait_for_url_not_contains(self, url_part, timeout=WAIT_TIMEOUT):
+        WebDriverWait(self.driver, timeout).until(
+            lambda d: url_part not in d.current_url
+        )

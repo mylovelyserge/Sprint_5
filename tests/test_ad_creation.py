@@ -1,15 +1,7 @@
 from pages.main_page import MainPage
 from pages.auth_page import AuthPage
 from pages.ad_page import AdPage
-from test_data import (
-    EXISTING_USER_EMAIL,
-    EXISTING_USER_PASSWORD,
-    AD_TITLE,
-    AD_DESCRIPTION,
-    AD_PRICE,
-    AD_CATEGORY,
-    AD_CITY,
-)
+from test_data import ExistingUser, AdData
 
 
 class TestAdCreation:
@@ -28,17 +20,17 @@ class TestAdCreation:
         ad_page = AdPage(driver)
 
         main_page.click_login_register_button()
-        auth_page.fill_login_form(EXISTING_USER_EMAIL, EXISTING_USER_PASSWORD)
+        auth_page.fill_login_form(ExistingUser.EMAIL, ExistingUser.PASSWORD)
         auth_page.submit_login_form()
 
         main_page.click_place_ad_button()
-        ad_page.fill_ad_form(AD_TITLE, AD_DESCRIPTION, AD_PRICE)
-        ad_page.select_category(AD_CATEGORY)
-        ad_page.select_city(AD_CITY)
+        ad_page.fill_ad_form(AdData.TITLE, AdData.DESCRIPTION, AdData.PRICE)
+        ad_page.select_category(AdData.CATEGORY)
+        ad_page.select_city(AdData.CITY)
         ad_page.select_condition()
         ad_page.submit_ad_form()
 
         ad_page.go_to_profile()
 
         assert ad_page.is_my_ads_section_displayed()
-        assert any(AD_TITLE in title for title in ad_page.get_ad_titles_in_profile())
+        assert any(AdData.TITLE in title for title in ad_page.get_ad_titles_in_profile())

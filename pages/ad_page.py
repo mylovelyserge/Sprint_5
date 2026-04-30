@@ -1,13 +1,13 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-
 from pages.base_page import BasePage
 from locators.locators import (
     AD_TITLE_INPUT,
     AD_DESCRIPTION_INPUT,
     AD_PRICE_INPUT,
-    AD_CATEGORY_DROPDOWN,
-    AD_CITY_DROPDOWN,
+    AD_CATEGORY_ARROW,
+    AD_CATEGORY_OPTION,
+    AD_CITY_ARROW,
+    AD_CITY_OPTION,
+    AD_CONDITION_RADIO,
     AD_PUBLISH_BUTTON,
     MODAL_TITLE,
     PROFILE_LINK,
@@ -27,26 +27,20 @@ class AdPage(BasePage):
         self.type_text(AD_PRICE_INPUT, price)
 
     def select_category(self, category):
-        arrow = (By.XPATH, "//input[@name='category']/following-sibling::button")
-        self.click(arrow)
-        option = (By.XPATH, f"//input[@name='category']/ancestor::div[contains(@class,'dropDownMenu_dropMenu')][1]//button[normalize-space()='{category}']")
-        self.click(option)
+        self.click(AD_CATEGORY_ARROW)
+        self.click(AD_CATEGORY_OPTION(category))
 
     def select_city(self, city):
-        arrow = (By.XPATH, "//input[@name='city']/following-sibling::button")
-        self.click(arrow)
-        option = (By.XPATH, f"//input[@name='city']/ancestor::div[contains(@class,'dropDownMenu_dropMenu')][1]//button[normalize-space()='{city}']")
-        self.click(option)
+        self.click(AD_CITY_ARROW)
+        self.click(AD_CITY_OPTION(city))
 
     def select_condition(self):
-        element = self.wait_for_element((By.CSS_SELECTOR, "input[name='condition']"))
-        self.driver.execute_script("arguments[0].click()", element)
+        element = self.wait_for_element(AD_CONDITION_RADIO)
+        self.js_click(element)
 
     def submit_ad_form(self):
         self.click(AD_PUBLISH_BUTTON)
-        WebDriverWait(self.driver, 10).until(
-            lambda d: "/create-lisiting" not in d.current_url
-        )
+        self.wait_for_url_not_contains("/create-lisiting")
 
     def go_to_profile(self):
         self.click(PROFILE_LINK)
